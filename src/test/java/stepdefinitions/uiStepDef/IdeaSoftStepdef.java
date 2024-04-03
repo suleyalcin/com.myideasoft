@@ -76,8 +76,7 @@ public class IdeaSoftStepdef {
 
         Assert.assertEquals(5, adet);
 
-        //   Assert.assertEquals(ideaPage.adetButton.getText(), Integer.toString(urunSayisi));
-        //   Assert.assertEquals(5, Integer.parseInt(ideaPage.adetButton.getText()));
+
     }
 
 
