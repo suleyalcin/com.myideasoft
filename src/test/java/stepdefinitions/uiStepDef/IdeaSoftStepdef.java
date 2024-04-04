@@ -17,7 +17,7 @@ import utilities.ReusableMethods;
 public class IdeaSoftStepdef {
     IdeaSoftPage ideaPage = new IdeaSoftPage();
     private WebDriver driver;
-    public int urunSayisi = 3;
+
 
     // Kullanıcı bir siteye giriş yapar
     @Given("Kullanici ideaSoft sitesini ziyaret eder")
@@ -64,31 +64,13 @@ public class IdeaSoftStepdef {
     // Sepet logosuna tıklayarak sepet içeriğini kontrol eder
     @And("Sepet iceriginde urunden {int} adet oldugu kontrol edilir")
     public void sepetIcerigindeUrundenAdetOlduguKontrolEdilir(int expectedAdet) throws InterruptedException {
-        Thread.sleep(2000);
         ReusableMethods.scrollUpWithJS();
         ideaPage.sepet.click();
         ReusableMethods.waitForClickablility(ideaPage.adetButton, 30);
         String adetMetni = ideaPage.adetButton.getText();
-        System.out.println("Adet Metni [ "+adetMetni+" ]");
-        if (!adetMetni.trim().isEmpty()) {
-            // Metindeki boşlukları kaldır ve özel karakterleri temizle
-            adetMetni = adetMetni.replaceAll("[^\\d.]", "");
-
-            // Eğer metin hala boş değilse, tam sayıya dönüştür
-            if (!adetMetni.isEmpty()) {
-                int actualAdet = Integer.parseInt(adetMetni.trim());
-
-                // Assert ile karşılaştırma yap
-                Assert.assertEquals(expectedAdet, actualAdet);
-            } else {
-                // Metin boşsa, sepette ürün adedi bulunamadı hatası ver
-                Assert.fail("Metin Bos Sepette urun adedi bulunamadı");
-            }
-        } else {
-            // Eğer sepette ürün adedi bulunamazsa hata mesajı ver
-            Assert.fail("Sepette urun adedi bulunamadı");
-        }
-
+        System.out.println("Adet Metni {" + adetMetni + "}");
+        int actualAdet = Integer.parseInt(adetMetni.trim());
+        Assert.assertEquals(expectedAdet, actualAdet);
     }
 
 
