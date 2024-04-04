@@ -26,9 +26,9 @@ public class IdeaSoftPage {
     @FindBy(xpath = "//button[normalize-space()='Ara']")
     public WebElement araButton;
 
-    @FindBy(xpath = "//a[@title='Sepet']//*[name()='svg']")
+    @FindBy(xpath = "//header/div[1]/div[1]/div[1]/div[3]/div[1]/div[3]/a[1]/*[1]")
     public WebElement sepet;
 
-    @FindBy(xpath = "//input[@value='1']")
+    @FindBy(xpath = "//div[@class='cart-amount']")
     public WebElement adetButton;
 }

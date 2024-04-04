@@ -6,9 +6,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.IdeaSoftPage;
 import utilities.ConfigReader;
 import utilities.Driver;
@@ -17,8 +17,7 @@ import utilities.ReusableMethods;
 public class IdeaSoftStepdef {
     IdeaSoftPage ideaPage = new IdeaSoftPage();
     private WebDriver driver;
-   // private String baseUrl = "https://testcase.myideasoft.com/"; // Başlangıç URL'si
-    private int urunSayisi = 5;
+    public int urunSayisi = 3;
 
     // Kullanıcı bir siteye giriş yapar
     @Given("Kullanici ideaSoft sitesini ziyaret eder")
@@ -42,40 +41,53 @@ public class IdeaSoftStepdef {
     //" SEPETİNİZE EKLENMİŞTİR " uyarısını kontrol eder
     @Then("{string} yazisi gozlemlenir")
     public void yazisiGozlemlenir(String arg0) throws InterruptedException {
-        ReusableMethods.waitForVisibility(ideaPage.sepeteEklenmistirAllert ,60);
+        ReusableMethods.waitForVisibility(ideaPage.sepeteEklenmistirAllert, 30);
         Assert.assertTrue(ideaPage.sepeteEklenmistirAllert.isDisplayed());
-        ReusableMethods.waitForClickablility(ideaPage.sepeteEklenmistirAllert, 60);
-        ideaPage.sepeteEklenmistirAllert.click();
         ReusableMethods.scrollPageDown();
     }
 
-    //"5 adet urun sırayla sepete ekler
+    //"4 adet urun daha sırayla sepete ekler
     @And("Ilgili urunden {int} adet olacak sekilde sepete eklenir")
     public void ılgiliUrundenAdetOlacakSekildeSepeteEklenir(int urunSayisi) throws InterruptedException {
-        for (int i = 0; i < urunSayisi; i++) {
+        for (int i = 1; i < urunSayisi; i++) {
             try {
-                ReusableMethods.waitForClickablility(ideaPage.sepeteEkle, 60);
-                ReusableMethods.clickWithJS(ideaPage.sepeteEkle);
-                // "Sepetinize Eklenmistir" uyarısını bekler ve görünür olduğunda devam eder
-                yazisiGozlemlenir("Sepetinize Eklenmistir");
+                aramaKisminaYazarakAramaYapar("urun");
+                acilanSayfadaAdliBirUruneTiklarVeSepeteEkler("urun");
+                yazisiGozlemlenir("SEPETİNİZE EKLENMİŞTİR");
             } catch (Exception e) {
-                System.out.println("Tiklanabilir Degil Tekrar Denenecek");;
+                System.out.println("Tiklanabilir Degil Tekrar Denenecek");
+                ;
             }
         }
     }
 
     // Sepet logosuna tıklayarak sepet içeriğini kontrol eder
     @And("Sepet iceriginde urunden {int} adet oldugu kontrol edilir")
-    public void sepetIcerigindeUrundenAdetOlduguKontrolEdilir(int urunSayisi) {
-
+    public void sepetIcerigindeUrundenAdetOlduguKontrolEdilir(int expectedAdet) throws InterruptedException {
+        Thread.sleep(2000);
+        ReusableMethods.scrollUpWithJS();
+        ideaPage.sepet.click();
+        ReusableMethods.waitForClickablility(ideaPage.adetButton, 30);
         String adetMetni = ideaPage.adetButton.getText();
-        int adet = 0;
-        if (!adetMetni.isEmpty()) {
-            adet = Integer.parseInt(adetMetni);
+        System.out.println("Adet Metni [ "+adetMetni+" ]");
+        if (!adetMetni.trim().isEmpty()) {
+            // Metindeki boşlukları kaldır ve özel karakterleri temizle
+            adetMetni = adetMetni.replaceAll("[^\\d.]", "");
+
+            // Eğer metin hala boş değilse, tam sayıya dönüştür
+            if (!adetMetni.isEmpty()) {
+                int actualAdet = Integer.parseInt(adetMetni.trim());
+
+                // Assert ile karşılaştırma yap
+                Assert.assertEquals(expectedAdet, actualAdet);
+            } else {
+                // Metin boşsa, sepette ürün adedi bulunamadı hatası ver
+                Assert.fail("Metin Bos Sepette urun adedi bulunamadı");
+            }
+        } else {
+            // Eğer sepette ürün adedi bulunamazsa hata mesajı ver
+            Assert.fail("Sepette urun adedi bulunamadı");
         }
-
-        Assert.assertEquals(5, adet);
-
 
     }
 
