@@ -10,7 +10,6 @@ public class IdeaSoftPage {
         PageFactory.initElements(Driver.getDriver(),this);
     }
 
-
     @FindBy(xpath = "//input[@placeholder='Aramak istediğiniz ürünü yazınız']")
     public WebElement aramaButonu;
 
@@ -22,9 +21,6 @@ public class IdeaSoftPage {
 
     @FindBy(xpath = "//div[@class='showcase-container']//div[@class='row']")
     public WebElement sepeteEklenmistirAllert;
-
-  //  @FindBy(xpath = "//button[normalize-space()='Ara']")
-    //public WebElement araButton;
 
     @FindBy(xpath = "//header/div[1]/div[1]/div[1]/div[3]/div[1]/div[3]/a[1]/*[1]")
     public WebElement sepet;
