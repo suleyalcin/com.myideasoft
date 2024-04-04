@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Cucumber" time="25.684" tests="1" skipped="0" failures="0" errors="0">
-<testcase classname="Urun Arama ve Sepete Ekleme" name="Urun Arama ve Sepete Ekleme" time="25.57">
+<testsuite name="Cucumber" time="25.447" tests="1" skipped="0" failures="0" errors="0">
+<testcase classname="Urun Arama ve Sepete Ekleme" name="Urun Arama ve Sepete Ekleme" time="25.332">
 <system-out><![CDATA[
 Given Kullanici ideaSoft sitesini ziyaret eder..............................passed
 When Arama kismina "urun" yazarak arama yapar...............................passed
