@@ -34,9 +34,7 @@ public class ConfigReader {
         }
     }
 
-    public static String getApiUrl() {
-        return properties.getProperty("apiUrl");
-    }
+
     public static String getProperty(String key){
         return properties.getProperty(key);
 
